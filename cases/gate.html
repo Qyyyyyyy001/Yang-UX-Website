@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gate Merchant Platform · UX case study — Yang Qiu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles-v4.css" />
+    <link rel="stylesheet" href="../case-spy.css" />
+    <style>
+      :root { --spy-bg: #0a0a0a; --spy-ink: #f5f3ee; --spy-muted: rgba(245,243,238,0.55); --spy-dot: rgba(245,243,238,0.32); --spy-dot-hover: rgba(245,243,238,0.6); --spy-accent: #c5ff3d; --spy-accent-glow: rgba(197,255,61,0.18); --spy-mobile-bg: rgba(10,10,10,0.85); }
+      /* Dark case-study palette — black ground, light ink (aligned with homepage). */
+      :root {
+        --case-bg: #0a0a0a;
+        --case-ink: #f5f3ee;
+        --case-muted: rgba(245,243,238,0.55);
+        --case-line: rgba(245,243,238,0.12);
+        --case-tint: var(--case-bg);
+        --case-gutter: 120px;
+        --case-max: 1680px;
+      }
+
+      body { background: var(--case-bg); color: var(--case-ink); }
+      .case-page { background: var(--case-bg); min-height: 100vh; }
+
+      /* Topbar — mirrors the homepage exactly (brand left, nav right) */
+      .case-topbar {
+        max-width: var(--case-max);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 32px var(--case-gutter);
+      }
+      .case-topbar .brand {
+        font-family: "Inter", sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--case-ink);
+        letter-spacing: 0.1px;
+        text-decoration: none;
+      }
+      .case-topbar__end { display: flex; align-items: center; gap: 28px; }
+      .case-topbar .nav {
+        display: flex;
+        gap: 36px;
+        font-family: "Inter", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+      }
+      .case-topbar .nav a {
+        color: var(--case-ink);
+        text-decoration: none;
+        transition: opacity 150ms ease;
+      }
+      .case-topbar .nav a:hover { opacity: 0.55; }
+
+      /* Centered case header */
+      .case-header {
+        max-width: var(--case-max);
+        margin: 0 auto;
+        padding: 96px var(--case-gutter) 32px;
+        text-align: center;
+      }
+      .case-title {
+        font-family: "EB Garamond", serif;
+        font-weight: 400;
+        font-size: 132px;
+        line-height: 0.96;
+        letter-spacing: -2.5px;
+        color: var(--case-ink);
+        margin: 0 auto;
+        max-width: 1100px;
+      }
+      .case-title em { font-style: italic; font-weight: 400; }
+      .case-sub {
+        margin: 40px auto 0;
+        max-width: 720px;
+        font-family: "Inter", sans-serif;
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--case-muted);
+      }
+
+      /* Meta strip */
+      .case-meta {
+        max-width: var(--case-max);
+        margin: 0 auto;
+        padding: 36px var(--case-gutter) 88px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 64px;
+        border-bottom: 1px solid var(--case-line);
+      }
+      .case-meta-item { text-align: center; }
+      .case-meta-item dt {
+        font-family: "Inter", sans-serif;
+        font-size: 10px;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--case-muted);
+        margin-bottom: 12px;
+      }
+      .case-meta-item dd {
+        margin: 0;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 20px;
+        color: var(--case-ink);
+      }
+
+      /* Slide deck — black ground for gaps and slide chrome */
+      .deck {
+        max-width: var(--case-max);
+        margin: 0 auto;
+        padding: 88px var(--case-gutter) 120px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        background: var(--case-bg);
+      }
+      .slide {
+        position: relative;
+        max-width: 1200px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        background: var(--case-tint);
+        overflow: hidden;
+        border-radius: 0;
+      }
+      .slide img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Bottom pager */
+      .case-footer {
+        max-width: var(--case-max);
+        margin: 0 auto;
+        padding: 40px var(--case-gutter) 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--case-line);
+        font-family: "Inter", sans-serif;
+        font-size: 12px;
+        color: var(--case-muted);
+      }
+      .case-footer a {
+        color: var(--case-ink);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: opacity 150ms ease;
+      }
+      .case-footer a:hover { opacity: 0.55; }
+
+      /* Responsive */
+      @media (max-width: 1440px) {
+        :root { --case-gutter: 80px; }
+        .case-title { font-size: 108px; }
+      }
+      @media (max-width: 1200px) {
+        :root { --case-gutter: 56px; }
+        .case-title { font-size: 84px; letter-spacing: -1.5px; }
+      }
+      @media (max-width: 900px) {
+        :root { --case-gutter: 32px; }
+        .case-topbar { padding: 24px var(--case-gutter); }
+        .case-header { padding: 56px var(--case-gutter) 40px; }
+        .case-title { font-size: 56px; letter-spacing: -1px; }
+        .case-meta { padding: 40px var(--case-gutter) 56px; gap: 32px; }
+        .deck { padding: 56px var(--case-gutter) 80px; gap: 0; }
+        .case-footer { flex-direction: column; gap: 16px; padding: 32px var(--case-gutter) 56px; }
+      }
+      @media (max-width: 560px) {
+        :root { --case-gutter: 20px; }
+        .case-topbar .nav { gap: 20px; font-size: 12px; }
+        .case-title { font-size: 44px; }
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="case-page">
+      <!-- Topbar — same shape as homepage -->
+      <header class="case-topbar">
+        <a class="brand" href="../work.html" aria-label="Home">Yang Qiu</a>
+        <nav class="nav" aria-label="Main">
+          <a href="../work.html#work">Work</a>
+          <a href="../about.html">Resume</a>
+        </nav>
+      </header>
+
+      <!-- Case header -->
+      <section class="case-header">
+        <h1 class="case-title">Gate <em>Merchant</em></h1>
+        <p class="case-sub">
+          A comprehensive Web3 merchant platform &mdash; reimagined from the
+          ground up. Every surface, from the payments dashboard to the
+          developer SDK, was custom-designed to feel calm at high density,
+          with a confident accent system that scales from the merchant console
+          to API documentation.
+        </p>
+      </section>
+
+      <dl class="case-meta">
+        <div class="case-meta-item"><dt>Role</dt><dd>Senior Designer</dd></div>
+        <div class="case-meta-item"><dt>Surface</dt><dd>Web</dd></div>
+        <div class="case-meta-item"><dt>Type</dt><dd>SaaS · Web3 Payments</dd></div>
+      </dl>
+
+      <!-- Left-side scrollspy -->
+      <nav class="case-spy" id="caseSpy" aria-label="Section progress">
+        <button type="button" class="case-spy__item" data-target="sec-01">
+          <span class="case-spy__dot"></span><span class="case-spy__label">Overview</span>
+        </button>
+        <button type="button" class="case-spy__item" data-target="sec-02">
+          <span class="case-spy__dot"></span><span class="case-spy__label">Projects in Gate</span>
+        </button>
+        <button type="button" class="case-spy__item" data-target="sec-03">
+          <span class="case-spy__dot"></span><span class="case-spy__label">Competitor analysis</span>
+        </button>
+        <button type="button" class="case-spy__item" data-target="sec-04">
+          <span class="case-spy__dot"></span><span class="case-spy__label">Feature matrix</span>
+        </button>
+        <button type="button" class="case-spy__item" data-target="sec-05">
+          <span class="case-spy__dot"></span><span class="case-spy__label">Style guide upgrade</span>
+        </button>
+        <button type="button" class="case-spy__item" data-target="sec-06">
+          <span class="case-spy__dot"></span><span class="case-spy__label">Gate Pay IA</span>
+        </button>
+        <button type="button" class="case-spy__item" data-target="sec-07">
+          <span class="case-spy__dot"></span><span class="case-spy__label">Gate Pay Merchant</span>
+        </button>
+        <button type="button" class="case-spy__item" data-target="sec-08">
+          <span class="case-spy__dot"></span><span class="case-spy__label">Gate Card &amp; Travel</span>
+        </button>
+      </nav>
+
+      <!-- Slides — assets/G1.jpg … G8.jpg -->
+      <main class="deck">
+        <section class="slide" id="sec-01" data-page="01">
+          <img src="../assets/G1.jpg" alt="Gate Merchant — Overview." decoding="async" fetchpriority="high" />
+        </section>
+        <section class="slide" id="sec-02" data-page="02">
+          <img src="../assets/G2.jpg?v=20260513" alt="Gate Merchant — Projects in Gate." decoding="async" loading="lazy" />
+        </section>
+        <section class="slide" id="sec-03" data-page="03">
+          <img src="../assets/G3.jpg" alt="Gate Merchant — Competitor analysis." decoding="async" loading="lazy" />
+        </section>
+        <section class="slide" id="sec-04" data-page="04">
+          <img src="../assets/G4.jpg" alt="Gate Merchant — Feature matrix." decoding="async" loading="lazy" />
+        </section>
+        <section class="slide" id="sec-05" data-page="05">
+          <img src="../assets/G5.jpg" alt="Gate Merchant — Style guide upgrade." decoding="async" loading="lazy" />
+        </section>
+        <section class="slide" id="sec-06" data-page="06">
+          <img src="../assets/G6.jpg" alt="Gate Merchant — Gate Pay IA." decoding="async" loading="lazy" />
+        </section>
+        <section class="slide" id="sec-07" data-page="07">
+          <img src="../assets/G7.jpg" alt="Gate Merchant — Gate Pay Merchant." decoding="async" loading="lazy" />
+        </section>
+        <section class="slide" id="sec-08" data-page="08">
+          <img src="../assets/G8.jpg" alt="Gate Merchant — Gate Card &amp; Travel." decoding="async" loading="lazy" />
+        </section>
+      </main>
+
+      <!-- Bottom pager -->
+      <footer class="case-footer">
+        <a href="../work.html#work"><em>←</em>&nbsp;Back to work</a>
+        <span>Gate Merchant Platform · Gate.io</span>
+        <a href="hsbc.html">Next case &mdash; HSBC&nbsp;<em>→</em></a>
+      </footer>
+    </div>
+    <audio id="site-audio" preload="metadata" loop playsinline style="display:none">
+      <source src="../assets/audio/youth-reply-1988.mp3" type="audio/mpeg" />
+    </audio>
+    <script src="../site-audio.js"></script>
+    <script src="../case-spy.js"></script>
+  </body>
+</html>

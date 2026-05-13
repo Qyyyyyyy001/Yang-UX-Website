@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume — Yang Qiu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles-v4.css" />
+  </head>
+  <body class="about-body">
+    <div class="page about-page">
+      <header class="topbar">
+        <a class="brand" href="work.html" aria-label="Home">Yang Qiu</a>
+        <div class="topbar-end">
+          <nav class="nav" aria-label="Main">
+            <a href="work.html#work">Work</a>
+            <a href="about.html" aria-current="page">Resume</a>
+          </nav>
+          <div class="audio-dock audio-dock--inline" id="audio-dock">
+            <audio id="site-audio" preload="metadata" loop playsinline>
+              <source src="assets/audio/youth-reply-1988.mp3" type="audio/mpeg" />
+            </audio>
+            <button
+              type="button"
+              class="audio-dock__btn audio-dock__btn--disc"
+              id="audio-toggle"
+              aria-pressed="false"
+              aria-label="Play background music"
+            >
+              <img
+                class="audio-dock__disc"
+                src="assets/music-disc-icon.png"
+                alt=""
+                width="44"
+                height="44"
+                decoding="async"
+              />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="about-cv" id="main">
+        <img src="assets/CV.jpg" alt="Yang Qiu — curriculum vitae" />
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        var dock = document.getElementById('audio-dock');
+        if (dock && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          dock.style.display = 'none';
+        }
+      })();
+    </script>
+    <script src="site-audio.js"></script>
+  </body>
+</html>

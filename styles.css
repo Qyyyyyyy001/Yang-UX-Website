@@ -1,0 +1,511 @@
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
+:root {
+  --bg-cream: #f4f1ec;
+  --bg-tan: #d9d2c4;
+  --ink: #111111;
+  --ink-soft: #1a1a1a;
+  --muted: #8a8680;
+  --muted-2: #6f6b66;
+  --rule: rgba(0, 0, 0, 0.12);
+
+  --dark-bg: #0a0a0a;
+  --dark-bg-2: #050505;
+  --dark-card: #0f0f10;
+  --dark-rule: rgba(255, 255, 255, 0.08);
+  --dark-muted: rgba(255, 255, 255, 0.55);
+
+  --serif: "EB Garamond", "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  --kicker-track: 1.6px;
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg-cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ==========================================================================
+   Page wrapper — fixed 1440 design width
+   ========================================================================== */
+.page {
+  width: 1440px;
+  margin: 0 auto;
+  background: var(--bg-cream);
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Topbar
+   ========================================================================== */
+.topbar {
+  position: relative;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 56px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-tan);
+  border-radius: 3px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--ink);
+  letter-spacing: 0.2px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.nav a {
+  transition: opacity 150ms ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav a:hover {
+  opacity: 0.55;
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+  position: relative;
+  padding: 120px 56px 160px;
+}
+
+.eyebrow {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  text-transform: uppercase;
+  color: var(--ink);
+  text-align: center;
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 188px;
+  line-height: 0.92;
+  letter-spacing: -4.5px;
+  color: var(--ink);
+  text-align: center;
+  margin: 56px 0 0;
+}
+
+.hero-title .line-1 {
+  display: block;
+}
+
+.hero-title .line-1 .amp {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero-title .line-2 {
+  display: block;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.hero-intro {
+  width: 720px;
+  margin: 96px auto 0;
+  font-family: var(--serif);
+  font-size: 23px;
+  line-height: 1.5;
+  color: var(--ink);
+  text-align: center;
+}
+
+.hero-intro p + p {
+  margin-top: 1em;
+}
+
+/* ==========================================================================
+   Project — generic
+   ========================================================================== */
+.project {
+  position: relative;
+  width: 100%;
+  padding: 120px 80px 140px;
+}
+
+.project--dark {
+  background: var(--dark-bg);
+  color: #fff;
+}
+
+.project--dark + .project--dark {
+  padding-top: 40px;
+}
+
+/* ==========================================================================
+   Project — featured stage (full-bleed image)
+   ========================================================================== */
+.project-stage {
+  position: relative;
+  width: 1280px;
+  margin: 0 auto;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--dark-card);
+  aspect-ratio: 16 / 9;
+}
+
+.project-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ==========================================================================
+   Project info row
+   ========================================================================== */
+.project-info {
+  width: 1280px;
+  margin: 56px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.kicker {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.project--dark .kicker {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.info-col--title h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: -0.6px;
+  color: inherit;
+  max-width: 520px;
+}
+
+.info-col--desc p {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+  color: inherit;
+  max-width: 520px;
+}
+
+.project--dark .info-col--desc p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.info-col--desc .link {
+  margin-top: 8px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 150ms ease;
+}
+
+.info-col--desc .link:hover {
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   Secondary thumbs row
+   ========================================================================== */
+.project-secondary {
+  width: 1280px;
+  margin: 80px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.thumb {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--dark-card);
+  margin: 0;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* For tall imagery (rocket / vertical) — center & contain */
+.thumb--contain {
+  background: #050505;
+}
+
+.thumb--contain img {
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   Light-toned project (OPPO)
+   ========================================================================== */
+.project--light {
+  background: var(--bg-cream);
+  color: var(--ink);
+}
+
+.project--light .project-stage {
+  background: #000;
+}
+
+.project--light .info-col--desc p {
+  color: rgba(0, 0, 0, 0.78);
+}
+
+/* ==========================================================================
+   Thank you section
+   ========================================================================== */
+.thanks {
+  position: relative;
+  padding: 200px 0 240px;
+  text-align: center;
+  background: var(--bg-cream);
+  color: var(--ink);
+}
+
+.thanks h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 120px;
+  line-height: 1.02;
+  letter-spacing: -2.5px;
+}
+
+.thanks .vrule {
+  display: block;
+  width: 1px;
+  height: 64px;
+  margin: 64px auto 32px;
+  background: var(--ink);
+}
+
+.thanks .hovs-mark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.thanks .hovs-mark::before {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 92px;
+  background: var(--bg-tan);
+  border-radius: 32px 32px 4px 4px;
+}
+
+.thanks .hovs-mark span {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer {
+  position: relative;
+  padding: 60px 80px 64px;
+  background: var(--bg-cream);
+  color: var(--ink);
+}
+
+.footer-rule {
+  height: 1px;
+  background: var(--rule);
+  margin-bottom: 80px;
+}
+
+.quick-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 36px;
+  font-family: var(--sans);
+  font-size: 13px;
+  margin-bottom: 96px;
+}
+
+.quick-links a {
+  color: var(--ink);
+  transition: opacity 150ms ease;
+}
+
+.quick-links a:hover {
+  opacity: 0.55;
+}
+
+.numbered-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 56px;
+  margin: 0 0 96px;
+}
+
+.numbered-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.numbered-list .num {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  color: var(--muted);
+}
+
+.numbered-list .label {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 24px;
+  color: var(--ink);
+}
+
+.more-label {
+  text-align: center;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.more-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ink);
+  margin-bottom: 96px;
+}
+
+.more-links a {
+  transition: opacity 150ms ease;
+}
+
+.more-links a:hover {
+  opacity: 0.55;
+}
+
+.copyright {
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  text-transform: uppercase;
+  color: var(--muted);
+}

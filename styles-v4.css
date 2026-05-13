@@ -1,0 +1,833 @@
+/* ==========================================================================
+   v4 — vanschneider-style portfolio
+   ========================================================================== */
+:root {
+  --bg: #0d0d0d;
+  --ink: #ffffff;
+  --muted: rgba(255, 255, 255, 0.5);
+  --muted-2: rgba(255, 255, 255, 0.72);
+  --rule: rgba(255, 255, 255, 0.18);
+
+  --serif: "EB Garamond", "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, sans-serif;
+  --kicker-track: 1.6px;
+
+  --gutter: 120px;
+  --max: 1680px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+/* Full-bleed sections (e.g. .localization-band) need .page visible; keep x scroll off at root */
+html { overflow-x: hidden; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p { margin: 0; }
+img {
+  display: block;
+  max-width: 100%;
+  box-sizing: content-box;
+  border: 0 solid transparent;
+  border-image: none;
+}
+
+.page {
+  width: 100%;
+  background: var(--bg);
+  overflow: visible;
+}
+
+/* ==========================================================================
+   Topbar
+   ========================================================================== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px var(--gutter);
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.brand {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.1px;
+}
+
+.topbar-end {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.5vw, 24px);
+}
+
+.nav {
+  display: flex;
+  gap: 36px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.nav a { transition: opacity 150ms ease; }
+.nav a:hover { opacity: 0.55; }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+  padding: 80px var(--gutter) 100px;
+  max-width: var(--max);
+  margin: 0 auto;
+  position: relative;
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 132px;
+  line-height: 1.02;
+  letter-spacing: -1.5px;
+  color: var(--ink);
+}
+
+.hero-line {
+  display: block;
+}
+
+/* ~72% of .hero-title — scales with every breakpoint so contrast stays stable */
+.hero-line--muted {
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.72em;
+  margin-block: 0.1em;
+}
+
+.hero-line--mark {
+  display: flex;
+  align-items: center;
+  gap: 0.21em;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.hero-line--mark em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ~81% of I AM line box (two −10% steps from full cap height) */
+.hero-avatar {
+  display: inline-block;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 0.81em;
+  height: 0.81em;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #1a1a1a;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+@supports (width: 1lh) {
+  .hero-avatar {
+    width: 0.81lh;
+    height: 0.81lh;
+  }
+}
+
+.hero-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  /* 放大少许以裁掉圆形遮罩边缘的抗锯齿/JPEG 白边 */
+  transform: scale(1.06);
+  transform-origin: center center;
+}
+
+.hero-intro {
+  margin: 60px 0 0 auto;
+  width: 640px;
+  max-width: 50%;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--muted-2);
+  font-weight: 300;
+}
+
+.hero-intro p + p { margin-top: 1.6em; }
+
+.hero-intro strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Logo wall — single image strip (HSBC · OPPO · Gate Pay · Kingston)
+   ========================================================================== */
+.logo-wall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 160px;
+}
+
+.logo-wall img {
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  display: block;
+  /* Source is white logos on black — drop in as-is on dark page; mix-blend
+     keeps any residual black bg invisible on the page. */
+  mix-blend-mode: screen;
+}
+
+/* ==========================================================================
+   Work / Projects
+   ========================================================================== */
+.work {
+  padding: 0 var(--gutter);
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.project {
+  padding: 80px 0 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Image wrapper link — --scroll-progress set by inline script for scroll-driven scale */
+.project-image-link {
+  display: block;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+  margin-bottom: 32px;
+  --scroll-progress: 1;
+  transition: opacity 200ms ease;
+}
+
+.project-image-link:hover { opacity: 0.92; }
+
+/* Scale the figure (not the <a>) so narrow / flex-aligned rows behave like HSBC */
+.project-image-link .project-image {
+  transform: scale(calc(0.92 + 0.08 * var(--scroll-progress)));
+  transform-origin: 0% 50%;
+  will-change: transform;
+}
+
+.project--shift-right .project-image-link .project-image {
+  transform-origin: 0% 50%;
+}
+
+.project--align-left .project-image-link .project-image {
+  transform-origin: 0% 50%;
+}
+
+.project-image {
+  width: 100%;
+  margin: 0;
+  background: #1a1a1a;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* OPPO solid-black card variant — black bg, big green wordmark */
+.project-image--oppo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+
+.project-image--oppo-card .oppo-mark {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: 132px;
+  letter-spacing: -3px;
+  color: #2db75a;
+  line-height: 1;
+}
+
+.project-image--oppo-card .oppo-sub {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: 0.4px;
+}
+
+/* UQ illustration — image is bright on dark, no crop, centered */
+.project-image--uq {
+  background: transparent;
+  aspect-ratio: auto;
+  height: auto;
+  border-radius: 8px;
+}
+
+.project-image--uq img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Project body — left-aligned under the image */
+.project-body {
+  max-width: 580px;
+}
+
+/* Gate (default project) — body text aligns with the full image's left edge. */
+.project:not(.project--shift-right):not(.project--align-left) .project-body {
+  padding-left: 0;
+}
+
+/* Shift-right variant — image hugs the right edge of the work column,
+   body sits underneath aligned to the image's left edge. */
+.project--shift-right {
+  align-items: flex-end;
+}
+
+.project--shift-right .project-image-link {
+  max-width: 78%;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.project--shift-right .project-body {
+  max-width: 78%;
+  width: 100%;
+  margin-left: auto;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.project--shift-right .project-body > * {
+  max-width: 580px;
+}
+
+/* Narrow column hugging the left edge — same max-width as shift-right */
+.project--align-left {
+  align-items: flex-start;
+}
+
+.project--align-left .project-image-link {
+  max-width: 78%;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.project--align-left .project-body {
+  max-width: 78%;
+  width: 100%;
+  margin-right: auto;
+  margin-left: 0;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.project--align-left .project-body > * {
+  max-width: 580px;
+}
+
+.project-kicker {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  font-weight: 400;
+}
+
+.project-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 18px;
+  letter-spacing: -0.3px;
+}
+
+.project-title-link {
+  color: inherit;
+  font-size: 48px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.project-title-link:hover { opacity: 0.6; }
+
+.project-desc {
+  font-family: var(--sans);
+  font-size: 22px;
+  line-height: 1.85;
+  color: var(--muted-2);
+  font-weight: 300;
+}
+
+/* ==========================================================================
+   Hobby — Localization (full-bleed lime band)
+   ========================================================================== */
+.localization-band {
+  --localization-green: #1ed760;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 72px 0 80px;
+  background: var(--localization-green);
+  color: #000;
+}
+
+.localization-band__inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0;
+}
+
+@media (min-width: 1440px) {
+  .localization-band__inner {
+    padding-left: 240px;
+    padding-right: 240px;
+  }
+}
+
+.localization-band__label {
+  font-family: ui-monospace, "Roboto Mono", "SF Mono", Consolas, monospace;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: #000;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.localization-band__text {
+  font-family: var(--sans);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  color: #000;
+  margin: 0;
+  max-width: 52rem;
+  flex: 0 1 auto;
+  text-align: left;
+}
+
+@media (min-width: 1920px) {
+  .localization-band {
+    padding: 72px 0 80px;
+    min-height: 800px;
+    height: 800px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .localization-band__inner {
+    max-width: none;
+    width: 100%;
+    align-items: flex-start;
+    margin: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .localization-band {
+    padding: 56px 0 64px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .localization-band__inner {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .localization-band__text {
+    font-size: 22px;
+    line-height: 1.3;
+    max-width: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .localization-band {
+    padding: 40px 0 48px;
+  }
+
+  .localization-band__label {
+    font-size: 12px;
+  }
+
+  .localization-band__text {
+    font-size: 18px;
+  }
+}
+
+/* ==========================================================================
+   Marquee
+   ========================================================================== */
+.marquee {
+  padding: 140px 0 120px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 56px;
+  font-family: var(--serif);
+  font-size: 124px;
+  line-height: 1;
+  color: var(--ink);
+  animation: marquee 32s linear infinite;
+  padding-left: 56px;
+}
+
+.marquee-track em { font-style: italic; font-weight: 400; }
+
+.marquee-track .dot {
+  font-style: normal;
+  opacity: 0.4;
+  font-size: 90px;
+  position: relative;
+  top: -20px;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   Thank you
+   ========================================================================== */
+.thanks {
+  padding: 120px var(--gutter) 180px;
+  text-align: center;
+}
+
+.thanks h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.thanks h2 em { font-style: italic; font-weight: 400; }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer {
+  padding: 0 var(--gutter) 56px;
+  max-width: var(--max);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-rule {
+  height: 1px;
+  background: var(--rule);
+  margin-bottom: 44px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  font-family: var(--sans);
+  font-size: 12px;
+  margin-bottom: 36px;
+}
+
+.footer-links a {
+  color: var(--ink);
+  transition: opacity 150ms ease;
+}
+.footer-links a:hover { opacity: 0.6; }
+
+.copyright {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.4px;
+}
+
+/* ==========================================================================
+   Background music — inline disc control in topbar (optional; reduced motion hides)
+   ========================================================================== */
+.audio-dock--inline {
+  position: relative;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .audio-dock--inline {
+    display: none !important;
+  }
+}
+
+.audio-dock__btn--disc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: #0d0d0d;
+  cursor: pointer;
+  overflow: hidden;
+  transition: opacity 180ms ease, transform 180ms ease, border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.audio-dock__btn--disc:hover {
+  opacity: 0.95;
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+.audio-dock__btn--disc:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.65);
+  outline-offset: 3px;
+}
+
+.audio-dock__btn--disc:active {
+  transform: scale(0.96);
+}
+
+.audio-dock__disc {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+}
+
+.audio-dock__btn--disc.is-playing {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.audio-dock__btn--disc.is-playing .audio-dock__disc {
+  animation: audio-disc-spin 14s linear infinite;
+}
+
+@keyframes audio-disc-spin {
+  to { transform: rotate(360deg); }
+}
+
+.about-body .audio-dock__btn--disc {
+  border-color: rgba(10, 10, 10, 0.18);
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.about-body .audio-dock__btn--disc:hover {
+  border-color: rgba(10, 10, 10, 0.35);
+}
+
+.about-body .audio-dock__btn--disc:focus-visible {
+  outline-color: rgba(10, 10, 10, 0.45);
+}
+
+.about-body .audio-dock__btn--disc.is-playing {
+  border-color: rgba(10, 10, 10, 0.28);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .audio-dock__btn--disc.is-playing .audio-dock__disc {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   About page (full-page CV)
+   ========================================================================== */
+body.about-body {
+  background: #ffffff;
+  color: #0a0a0a;
+  overflow-x: hidden;
+}
+
+/* Fluid Resume layout — gutters track :root breakpoints; no clipping from .page */
+.about-page.page {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.about-page {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #0a0a0a;
+}
+
+.about-body .brand,
+.about-body .nav a {
+  color: #0a0a0a;
+}
+
+.about-cv {
+  box-sizing: border-box;
+  width: 100%;
+  /* 原 1000px；拉宽与首页内容区（--max 1680）更一致，大屏上简历图更大 */
+  max-width: min(1480px, 100%);
+  margin: 0 auto;
+  padding: clamp(8px, 2.5vw, 24px) var(--gutter) clamp(40px, 12vw, 100px);
+}
+
+.about-cv img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .about-cv {
+    padding-bottom: clamp(36px, 10vw, 72px);
+  }
+}
+
+@media (max-width: 560px) {
+  .about-cv {
+    padding-top: 8px;
+    padding-bottom: 48px;
+  }
+}
+
+/* Wide desktop — slightly larger hero intro body (base is 14px) */
+@media (min-width: 1441px) {
+  .hero-intro {
+    font-size: 18px;
+  }
+}
+
+/* ==========================================================================
+   Responsive — scale gutter + hero size down on smaller viewports.
+   The 1680px max-width and 120px gutters are the "comfortable" desktop
+   target; below that we shrink the side padding and the hero/marquee
+   typography so nothing overflows or wraps awkwardly.
+   ========================================================================== */
+@media (max-width: 1440px) {
+  :root { --gutter: 80px; }
+  .hero-title { font-size: 116px; }
+  .marquee-track { font-size: 110px; }
+  .thanks h2 { font-size: 52px; }
+}
+
+/* ≤1300px — hero intro column ~10% narrower than desktop */
+@media (max-width: 1300px) {
+  .hero-intro {
+    width: 576px;
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 1200px) {
+  :root { --gutter: 56px; }
+  .hero-title { font-size: 96px; letter-spacing: -1px; }
+  .hero-intro {
+    width: 491px;
+    max-width: 56%;
+    margin-top: 48px;
+  }
+  .marquee-track { font-size: 92px; }
+  .thanks h2 { font-size: 44px; }
+  .nav { gap: 28px; }
+}
+
+@media (max-width: 900px) {
+  :root { --gutter: 32px; }
+  .topbar { padding: 24px var(--gutter); }
+  .hero { padding: 48px var(--gutter) 72px; }
+  .hero-title { font-size: 68px; line-height: 1.04; letter-spacing: -0.5px; }
+  .hero-intro {
+    width: 100%;
+    max-width: 100%;
+    margin: 36px 0 0;
+    font-size: 13px;
+  }
+  .logo-wall { margin-top: 64px; }
+  .logo-wall img { max-width: 720px; }
+  .work { padding: 0 var(--gutter); }
+  .project { padding: 56px 0 72px; }
+  .project--shift-right .project-image-link,
+  .project--shift-right .project-body,
+  .project--align-left .project-image-link,
+  .project--align-left .project-body { max-width: 100%; }
+  .marquee-track { font-size: 64px; gap: 36px; padding-left: 32px; }
+  .marquee-track .dot { font-size: 48px; top: -10px; }
+  .thanks { padding: 80px var(--gutter) 120px; }
+  .thanks h2 { font-size: 36px; }
+  .footer { padding: 0 var(--gutter) 40px; }
+  .footer-links { flex-wrap: wrap; gap: 24px; }
+}
+
+@media (max-width: 560px) {
+  :root { --gutter: 20px; }
+  .nav { gap: 20px; font-size: 12px; }
+  .brand { font-size: 12px; }
+  .hero-title { font-size: 48px; }
+  .hero-line--mark { flex-wrap: wrap; }
+  .marquee-track { font-size: 44px; gap: 24px; padding-left: 20px; }
+  .marquee-track .dot { font-size: 32px; top: -6px; }
+  .thanks h2 { font-size: 28px; }
+  .project-title { font-size: 24px; }
+  .project-title-link { font-size: 24px; }
+}

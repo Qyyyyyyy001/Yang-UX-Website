@@ -1,0 +1,497 @@
+/* ==========================================================================
+   v3 — Minimal vanschneider.com-inspired (refined)
+   ========================================================================== */
+:root {
+  --bg: #f4f1ec;
+  --bg-soft: #ebe6dc;
+  --bg-tan: #d9d2c4;
+  --ink: #111111;
+  --ink-soft: #1a1a1a;
+  --muted: #7a7670;
+  --muted-2: #5e5b56;
+  --rule: rgba(0, 0, 0, 0.14);
+  --rule-soft: rgba(0, 0, 0, 0.08);
+
+  --dark-bg: #0a0a0a;
+  --dark-rule: rgba(255, 255, 255, 0.1);
+  --dark-rule-soft: rgba(255, 255, 255, 0.06);
+  --dark-muted: rgba(255, 255, 255, 0.55);
+
+  --serif: "EB Garamond", "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  --kicker-track: 1.6px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.page {
+  width: 100%;
+  margin: 0 auto;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Topbar — minimal, single row, balanced
+   ========================================================================== */
+.topbar {
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 64px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tan);
+  border-radius: 3px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.nav {
+  display: flex;
+  gap: 36px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.nav a {
+  transition: opacity 150ms ease;
+}
+
+.nav a:hover {
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   Hero — generous whitespace, centered editorial
+   ========================================================================== */
+.hero {
+  position: relative;
+  padding: 180px 64px 200px;
+  text-align: center;
+}
+
+.hero::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 80px;
+  background: var(--ink);
+  margin: 160px auto 0;
+}
+
+.eyebrow {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.eyebrow .dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink);
+  margin: 0 14px;
+  vertical-align: middle;
+}
+
+.hero-title {
+  margin: 64px 0 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 196px;
+  line-height: 0.9;
+  letter-spacing: -5px;
+  color: var(--ink);
+}
+
+.hero-title .line-1 {
+  display: block;
+}
+
+.hero-title .line-2 {
+  display: block;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.hero-intro {
+  width: 660px;
+  margin: 128px auto 0;
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.55;
+  color: var(--ink);
+  text-align: left;
+  position: relative;
+}
+
+.hero-intro::before {
+  content: "\201C";
+  position: absolute;
+  left: -56px;
+  top: -32px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 120px;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.18;
+}
+
+.hero-intro p + p {
+  margin-top: 1em;
+}
+
+/* ==========================================================================
+   Project — minimal: title above, image below, two-line caption after
+   ========================================================================== */
+.project {
+  position: relative;
+  padding: 120px 0 140px;
+}
+
+.project--dark {
+  background: var(--dark-bg);
+  color: #fff;
+}
+
+.project--light {
+  background: var(--bg-soft);
+  color: var(--ink);
+}
+
+.project--light .project-stage {
+  background: #ddd6c8;
+}
+
+/* Project header — index + kicker + title, centered */
+.project-head {
+  max-width: 1180px;
+  margin: 0 auto 72px;
+  padding: 0 64px;
+  text-align: center;
+}
+
+.project-index {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.4px;
+  color: var(--muted-2);
+  margin-bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.project--dark .project-index {
+  color: var(--dark-muted);
+}
+
+.project-index::before,
+.project-index::after {
+  content: "";
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.project-head .kicker {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.project--dark .project-head .kicker {
+  color: var(--dark-muted);
+}
+
+.project-head h2 {
+  margin-top: 18px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 64px;
+  line-height: 1.05;
+  letter-spacing: -1.4px;
+  color: inherit;
+}
+
+.project-head h2 em {
+  font-style: italic;
+}
+
+/* Featured stage — full bleed */
+.project-stage {
+  width: 100%;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0f0f10;
+  border-radius: 0;
+}
+
+.project-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Caption row — short summary + italic link, two columns */
+.project-caption {
+  max-width: 1280px;
+  margin: 72px auto 0;
+  padding: 0 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.project-caption p {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.55;
+  color: inherit;
+  max-width: 540px;
+}
+
+.project--dark .project-caption p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.project-caption .link {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 4px;
+  transition: opacity 150ms ease, gap 200ms ease;
+}
+
+.project-caption .link:hover {
+  opacity: 0.6;
+  gap: 12px;
+}
+
+/* Secondary thumbs — two columns, full bleed flush */
+.project-secondary {
+  width: 100%;
+  margin: 96px 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.thumb {
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+  overflow: hidden;
+  background: #0f0f10;
+  margin: 0;
+}
+
+.project--light .thumb {
+  background: #ddd6c8;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   Thank you
+   ========================================================================== */
+.thanks {
+  position: relative;
+  padding: 240px 0 260px;
+  text-align: center;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.thanks .eyebrow {
+  margin-bottom: 40px;
+  color: var(--muted-2);
+}
+
+.thanks h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 140px;
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.thanks .vrule {
+  display: block;
+  width: 1px;
+  height: 72px;
+  margin: 80px auto 36px;
+  background: var(--ink);
+}
+
+.thanks .qmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.thanks .qmark::before {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 92px;
+  background: var(--bg-tan);
+  border-radius: 32px 32px 4px 4px;
+}
+
+.thanks .qmark span {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 28px;
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   Footer — minimal, centered
+   ========================================================================== */
+.footer {
+  padding: 0 64px 72px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.footer-rule {
+  height: 1px;
+  background: var(--rule);
+  margin-bottom: 80px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 44px;
+  font-family: var(--sans);
+  font-size: 13px;
+  margin-bottom: 112px;
+}
+
+.footer-links a {
+  transition: opacity 150ms ease;
+}
+
+.footer-links a:hover {
+  opacity: 0.55;
+}
+
+.footer-list {
+  display: flex;
+  justify-content: center;
+  gap: 72px;
+  margin-bottom: 112px;
+  list-style: none;
+  padding: 0;
+}
+
+.footer-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.footer-list .num {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  color: var(--muted);
+}
+
+.footer-list .label {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 24px;
+  color: var(--ink);
+  transition: opacity 150ms ease;
+}
+
+.footer-list a:hover .label {
+  opacity: 0.55;
+}
+
+.copyright {
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: var(--kicker-track);
+  text-transform: uppercase;
+  color: var(--muted);
+}

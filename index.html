@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yang Qiu — UIUX Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --ink: #f5f3ee;
+        --muted: rgba(245, 243, 238, 0.45);
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Inter", system-ui, sans-serif;
+      }
+
+      /* The page is two viewports tall: cover sticks while user scrolls,
+         creating progress 0→1; at p>=1 we navigate to work.html. */
+      .scroll-host {
+        height: 140vh;
+        position: relative;
+      }
+
+      .stage-wrap {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        isolation: isolate;
+        background: var(--bg);
+      }
+
+      .stage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        will-change: transform, filter, opacity;
+        transition: opacity 600ms ease;
+      }
+
+      /* Background blobs */
+      .stage::before,
+      .stage::after,
+      .blob {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        z-index: 0;
+        pointer-events: none;
+      }
+      .stage::before {
+        content: "";
+        width: 38vw; height: 38vw;
+        left: -8vw; bottom: -10vw;
+        opacity: 0.55;
+        background: radial-gradient(circle at 40% 40%, #1a1a1a 0%, #0a0a0a 70%);
+      }
+      .stage::after {
+        content: "";
+        width: 34vw; height: 34vw;
+        right: -6vw; top: 8vw;
+        opacity: 0.55;
+        background: radial-gradient(circle at 50% 50%, #181818 0%, #0a0a0a 70%);
+      }
+      .blob--center {
+        width: 26vw; height: 26vw;
+        left: 22vw; top: 18vw;
+        opacity: 0.5;
+        background: radial-gradient(circle, #161616 0%, #0a0a0a 70%);
+        filter: blur(70px);
+      }
+
+      .grain {
+        position: absolute; inset: 0; z-index: 1;
+        pointer-events: none;
+        opacity: 0.18;
+        mix-blend-mode: overlay;
+        background-image: radial-gradient(rgba(255,255,255,0.6) 0.5px, transparent 0.6px);
+        background-size: 3px 3px;
+      }
+      .vignette {
+        position: absolute; inset: 0; z-index: 2;
+        pointer-events: none;
+        background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.55) 100%);
+      }
+
+      .content {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 56px;
+        padding: 0 4vw;
+        text-align: center;
+        will-change: transform, opacity, filter;
+      }
+
+      .id-row { display: flex; align-items: center; gap: 18px; }
+      .id-row__avatar {
+        width: 64px; height: 64px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: #222;
+      }
+      .id-row__avatar img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(0.2) contrast(1.05);
+      }
+      .id-row__name {
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 30px;
+        letter-spacing: 0.1px;
+        color: var(--muted);
+      }
+
+      .headline {
+        font-family: "EB Garamond", serif;
+        font-weight: 400;
+        font-size: clamp(56px, 11vw, 188px);
+        line-height: 1;
+        letter-spacing: -0.5px;
+        color: var(--ink);
+        margin: 0;
+        position: relative;
+        min-height: 1.1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .headline__slot {
+        position: relative;
+        display: inline-block;
+        white-space: nowrap;
+        perspective: 1200px;
+      }
+      .headline__word {
+        display: inline-flex;
+        white-space: nowrap;
+        transition:
+          opacity 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          filter 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .headline__char { display: inline-block; will-change: transform, opacity, filter; }
+      .headline__char.space { width: 0.34em; }
+
+      @keyframes charInDrop {
+        0% { opacity: 0; transform: translate3d(0, -1.1em, 0) rotateX(-75deg) skewY(8deg); filter: blur(14px); }
+        55% { opacity: 1; filter: blur(0); }
+        100% { opacity: 1; transform: translate3d(0,0,0) rotateX(0) skewY(0); filter: blur(0); }
+      }
+      .headline__char.is-in { animation: charInDrop 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+      .headline__word.is-fading-out { opacity: 0; filter: blur(18px); transform: scale(0.96); }
+      .headline__word.is-fading-in {
+        opacity: 0; filter: blur(18px); transform: scale(1.04);
+        animation: wordFadeIn 300ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+      @keyframes wordFadeIn {
+        0% { opacity: 0; filter: blur(18px); transform: scale(1.04); }
+        100% { opacity: 1; filter: blur(0); transform: scale(1); }
+      }
+
+      /* Scroll hint */
+      .hint {
+        position: absolute;
+        bottom: 36px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        font-family: "Inter", sans-serif;
+        animation: hintFloat 2.4s ease-in-out infinite;
+      }
+      .hint__line {
+        width: 1px;
+        height: 36px;
+        background: linear-gradient(to bottom, transparent, rgba(245,243,238,0.6));
+      }
+      @keyframes hintFloat {
+        0%, 100% { transform: translate(-50%, 0); opacity: 0.6; }
+        50%      { transform: translate(-50%, 6px); opacity: 1; }
+      }
+
+      /* Page-leave overlay (covers everything black on transition out) */
+      .veil {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        opacity: 0;
+        z-index: 50;
+        pointer-events: none;
+        transition: opacity 520ms ease;
+      }
+      .veil.is-on { opacity: 1; }
+
+      /* Initial entrance — fade everything in nicely. */
+      .stage { animation: stageIn 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+      @keyframes stageIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+      .id-row { animation: rowIn 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 80ms both; }
+      @keyframes rowIn {
+        0% { opacity: 0; transform: translateY(8px); filter: blur(8px); }
+        100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scroll-host" id="scrollHost">
+      <div class="stage-wrap">
+        <main class="stage" id="stage">
+          <div class="blob blob--center"></div>
+          <div class="grain"></div>
+          <div class="vignette"></div>
+
+          <div class="content" id="content">
+            <div class="id-row">
+              <span class="id-row__avatar"><img src="assets/avatar.jpg" alt="" /></span>
+              <span class="id-row__name">Yang Qiu</span>
+            </div>
+            <h1 class="headline" aria-live="polite">
+              <span class="headline__slot" id="slot"></span>
+            </h1>
+          </div>
+
+          <div class="hint" id="hint">
+            <span>Scroll to enter</span>
+            <span class="hint__line"></span>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div class="veil" id="veil"></div>
+
+    <script>
+      // ----- Word rotator -----
+      (function () {
+        var WORDS = ["Product Designer", "User Researcher", "INTP"];
+        var slot = document.getElementById("slot");
+        var idx = 0;
+        var animating = false;
+        var timer = null;
+        var INTERVAL = 2600;
+        var STAGGER = 28;
+        var FADE = 260;
+
+        function buildInitialWord(text) {
+          var word = document.createElement("span");
+          word.className = "headline__word";
+          for (var i = 0; i < text.length; i++) {
+            var ch = text.charAt(i);
+            var span = document.createElement("span");
+            span.className = "headline__char" + (ch === " " ? " space" : "") + " is-in";
+            span.textContent = ch === " " ? "\u00a0" : ch;
+            span.style.animationDelay = (i * STAGGER) + "ms";
+            word.appendChild(span);
+          }
+          return word;
+        }
+        function setWordText(word, text) {
+          word.textContent = "";
+          for (var i = 0; i < text.length; i++) {
+            var ch = text.charAt(i);
+            var span = document.createElement("span");
+            span.className = "headline__char" + (ch === " " ? " space" : "");
+            span.textContent = ch === " " ? "\u00a0" : ch;
+            word.appendChild(span);
+          }
+        }
+        function show(nextIdx) {
+          if (animating || nextIdx === idx) return;
+          animating = true;
+          var current = slot.querySelector(".headline__word");
+          if (!current) { animating = false; return; }
+          current.classList.add("is-fading-out");
+          setTimeout(function () {
+            setWordText(current, WORDS[nextIdx]);
+            current.classList.remove("is-fading-out");
+            current.classList.add("is-fading-in");
+            void current.offsetWidth;
+            setTimeout(function () {
+              current.classList.remove("is-fading-in");
+              idx = nextIdx;
+              animating = false;
+            }, FADE + 40);
+          }, FADE);
+        }
+        function next() { show((idx + 1) % WORDS.length); }
+        function startAuto() { stopAuto(); timer = setInterval(next, INTERVAL); }
+        function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+
+        slot.appendChild(buildInitialWord(WORDS[0]));
+        startAuto();
+      })();
+
+      // ----- Scroll → exit transition -----
+      (function () {
+        var content = document.getElementById("content");
+        var stage = document.getElementById("stage");
+        var hint = document.getElementById("hint");
+        var veil = document.getElementById("veil");
+        var navigated = false;
+        var ticking = false;
+
+        function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+
+        function update() {
+          ticking = false;
+          if (navigated) return;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          // Progress: 0 at top, 1 by the end of the second viewport.
+          var p = clamp(window.scrollY / (vh * 0.4), 0, 1);
+
+          // Content scales up & blurs out.
+          var scale = 1 + p * 0.45;          // 1 → 1.45
+          var blur = (p * 22).toFixed(1);    // 0 → 22px
+          var opacity = (1 - Math.pow(p, 1.4)).toFixed(3);
+          content.style.transform = "scale(" + scale.toFixed(3) + ")";
+          content.style.filter = "blur(" + blur + "px)";
+          content.style.opacity = opacity;
+
+          // Stage parallax — drift down slightly so the cover feels like it's lifting away.
+          stage.style.transform = "translate3d(0," + (p * -40).toFixed(1) + "px, 0)";
+
+          // Fade hint very early.
+          hint.style.opacity = clamp(1 - p * 4, 0, 1).toFixed(3);
+
+          // Veil eases in over last 30% to cover the swap to work.html.
+          var veilP = clamp((p - 0.7) / 0.3, 0, 1);
+          veil.style.opacity = veilP.toFixed(3);
+
+          if (p >= 0.995) {
+            navigated = true;
+            veil.classList.add("is-on");
+            // Mark that we're entering work via cover so it can fade in.
+            try { sessionStorage.setItem("fromCover", "1"); sessionStorage.setItem("autoplayMusic", "1"); } catch (e) {}
+            setTimeout(function () {
+              window.location.href = "work.html";
+            }, 360);
+          }
+        }
+
+        function onScroll() {
+          if (!ticking) {
+            window.requestAnimationFrame(update);
+            ticking = true;
+          }
+        }
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        // Reset scroll on load so re-entries feel fresh.
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        window.scrollTo(0, 0);
+        update();
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yang Qiu — UIUX Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles-v4.css" />
+    <style>
+      .work-body { opacity: 0; transition: opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 700ms cubic-bezier(0.2, 0.8, 0.2, 1); filter: blur(10px); }
+      .work-body.is-ready { opacity: 1; filter: blur(0); }
+      .work-veil { position: fixed; inset: 0; background: #000; z-index: 50; pointer-events: none; opacity: 1; transition: opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+      .work-veil.is-off { opacity: 0; }
+
+      /* Hero entrance — slide up from below quickly when arriving from cover. */
+      .work-body .hero-title,
+      .work-body .hero-intro,
+      .work-body .logo-wall {
+        opacity: 0;
+        transform: translateY(80px);
+        transition:
+          opacity 600ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .work-body.is-ready .hero-title { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
+      .work-body.is-ready .hero-intro { opacity: 1; transform: translateY(0); transition-delay: 200ms; }
+      .work-body.is-ready .logo-wall  { opacity: 1; transform: translateY(0); transition-delay: 320ms; }
+
+      /* Beefier scroll-driven scale on project hero images. */
+      .project-image-link { display: block; }
+      .project-image-link .project-image {
+        transform: scale(var(--scroll-scale, 0.45));
+        transform-origin: center center;
+        transition: transform 80ms linear;
+        will-change: transform;
+      }
+    </style>
+  </head>
+  <body class="work-body">
+    <div class="page">
+      <!-- Top bar -->
+      <header class="topbar">
+        <a class="brand" href="work.html" aria-label="Home">Yang Qiu</a>
+        <div class="topbar-end">
+          <nav class="nav" aria-label="Main">
+            <a href="#work">Work</a>
+            <a href="about.html">Resume</a>
+          </nav>
+          <div class="audio-dock audio-dock--inline" id="audio-dock">
+            <audio id="site-audio" preload="metadata" loop playsinline>
+              <source src="assets/audio/youth-reply-1988.mp3" type="audio/mpeg" />
+            </audio>
+            <button
+              type="button"
+              class="audio-dock__btn audio-dock__btn--disc"
+              id="audio-toggle"
+              aria-pressed="false"
+              aria-label="Play background music"
+            >
+              <img
+                class="audio-dock__disc"
+                src="assets/music-disc-icon.png"
+                alt=""
+                width="44"
+                height="44"
+                decoding="async"
+              />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero -->
+      <section class="hero" id="about">
+        <h1 class="hero-title">
+          <span class="hero-line">Better experience</span>
+          <span class="hero-line hero-line--muted">Therefore</span>
+          <span class="hero-line hero-line--mark">
+            <em>I AM</em>
+            <span class="hero-avatar" aria-hidden="true">
+              <img src="assets/avatar.jpg" alt="" />
+            </span>
+          </span>
+        </h1>
+
+        <div class="hero-intro">
+          <p>
+            I&rsquo;m a <strong>product designer</strong> who has worked for various
+            companies, ranging from tech giants to startups, and have been deeply
+            involved in <strong>visual / interaction design, user research,
+            front-end development</strong>. My goal is not only to create the
+            best user experience but also to help companies achieve business growth.
+          </p>
+          <p>
+            I continuously improve myself through practice and learning. I love exploring <strong>global cultures</strong> and have traveled to the West, Russia, the Middle East, and East Asia. It helped me to better understand the user experience needs of different cultures.
+          </p>
+        </div>
+
+        <!-- Logo wall -->
+        <div class="logo-wall" aria-label="Companies I've worked with">
+          <img src="assets/logos-wall.jpg" alt="HSBC, OPPO, Gate Pay, Kingston" />
+        </div>
+      </section>
+
+      <!-- Work -->
+      <div class="work" id="work">
+        <!-- Project 01 — Gate Merchant -->
+        <section class="project" data-screen-label="01 Gate Merchant">
+          <a class="project-image-link" href="cases/gate.html" aria-label="Gate merchant platform — view project">
+            <figure class="project-image">
+              <img src="assets/dashboard-laptop.jpg" alt="Gate merchant dashboard" />
+            </figure>
+          </a>
+          <div class="project-body">
+            <p class="project-kicker">Product designer&nbsp;&nbsp;·&nbsp;&nbsp;Solo designer</p>
+            <h2 class="project-title"><a class="project-title-link" href="cases/gate.html">Gate merchant platform</a></h2>
+            <p class="project-desc">
+              A comprehensive Web3 merchant platform &mdash; reimagined from the
+              ground up. Every surface, from the payments dashboard to the
+              developer SDK, was custom-designed to feel calm at high density,
+              with a confident lime accent that only those with a keen eye for
+              design might fully appreciate.
+            </p>
+          </div>
+        </section>
+
+        <!-- Project 02 — HSBC -->
+        <section class="project project--shift-right" data-screen-label="02 HSBC">
+          <a class="project-image-link" href="cases/hsbc.html" aria-label="HSBC SSV — view project">
+            <figure class="project-image">
+              <img src="assets/europa-1.jpg" alt="HSBC Securities Services case study" />
+            </figure>
+          </a>
+          <div class="project-body">
+            <p class="project-kicker">Product designer&nbsp;&nbsp;·&nbsp;&nbsp;Solo designer</p>
+            <h2 class="project-title"><a class="project-title-link" href="cases/hsbc.html">HSBC&nbsp; Security Service - Custody</a></h2>
+            <p class="project-desc">
+              A two-year UX deep-dive inside HSBC Securities Services. The
+              flagship piece is an AI Data Analyzer &mdash; a B2B data-mapping
+              system for the Custody desk that pairs RAG, semantic analysis,
+              exact-match and a knowledge graph behind a single calm operator
+              surface.
+            </p>
+          </div>
+        </section>
+
+        <!-- Hobby — Localization -->
+        <section
+          class="localization-band"
+          aria-labelledby="localization-label"
+        >
+          <div class="localization-band__inner">
+            <p class="localization-band__label" id="localization-label">
+              Hobby - Localization
+            </p>
+            <p class="localization-band__text">
+              Besides creating a great product experience, I also hope to do
+              localized design, ensuring that the designs for each country fit
+              the unique local culture. I believe culture is very difficult to
+              change. A good experience is one that adapts to the culture.
+            </p>
+          </div>
+        </section>
+
+        <!-- Project 03 — OPPO -->
+        <section class="project project--align-left" data-screen-label="03 OPPO">
+          <a class="project-image-link" href="cases/oppo.html" aria-label="OPPO official website — view project">
+            <figure class="project-image">
+              <img src="assets/oppo-hero.jpg" alt="OPPO official website cover" />
+            </figure>
+          </a>
+          <div class="project-body">
+            <p class="project-kicker">Product designer&nbsp;&nbsp;·&nbsp;&nbsp;Solo designer</p>
+            <h2 class="project-title"><a class="project-title-link" href="cases/oppo.html">OPPO official website</a></h2>
+            <p class="project-desc">
+              An end-to-end rethink of OPPO&rsquo;s online retail experience for
+              the Indonesian market. Field research with local buyers reframed
+              the purchase funnel around price-anchored discovery and creator-led
+              social proof, with a quieter typographic system that feels like a
+              magazine you actually want to scroll.
+            </p>
+          </div>
+        </section>
+
+        <!-- Project 04 — UQ Classroom -->
+        <section class="project project--shift-right" data-screen-label="04 UQ Classroom">
+          <a class="project-image-link" href="cases/uq.html" aria-label="UQ Classroom — view project">
+            <figure class="project-image project-image--uq">
+              <img src="assets/uq-classroom-cover.jpg" alt="UQ Classroom illustration" />
+            </figure>
+          </a>
+          <div class="project-body">
+            <p class="project-kicker">Product designer&nbsp;&nbsp;·&nbsp;&nbsp;Solo designer</p>
+            <h2 class="project-title"><a class="project-title-link" href="cases/uq.html">UQ Classroom</a></h2>
+            <p class="project-desc">
+              A K-12 live classroom built around three core surfaces: 1-on-1
+              tutoring, animated lessons, and group live class &mdash; anchored
+              by a persistent &ldquo;continue learning&rdquo; dock. A soft,
+              illustrated visual language was built to feel warm without ever
+              drifting into childishness.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Marquee -->
+      <section class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>UIUX Design</span>
+          <span class="dot">·</span>
+          <span><em>Localization</em></span>
+          <span class="dot">·</span>
+          <span>UX Research</span>
+          <span class="dot">·</span>
+          <span><em>Brand Identity</em></span>
+          <span class="dot">·</span>
+          <span>UIUX Design</span>
+          <span class="dot">·</span>
+          <span><em>Localization</em></span>
+          <span class="dot">·</span>
+          <span>UX Research</span>
+          <span class="dot">·</span>
+          <span><em>Brand Identity</em></span>
+        </div>
+      </section>
+
+      <!-- Thank you -->
+      <section class="thanks">
+        <h2>
+          Thank you for<br />
+          <em>visiting the house.</em>
+        </h2>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-rule"></div>
+
+        <nav class="footer-links" aria-label="Quick links">
+          <a href="#">Threerooms</a>
+          <a href="#">Color Inspiration</a>
+          <a href="#">Newsletter</a>
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Twitter</a>
+        </nav>
+
+        <p class="copyright">
+          © Yang Qiu&nbsp;&nbsp;·&nbsp;&nbsp;Designed in Brisbane
+        </p>
+      </footer>
+    </div>
+
+    <div class="work-veil" id="workVeil"></div>
+    <script>
+      (function () {
+        var body = document.body;
+        var veil = document.getElementById("workVeil");
+        var fromCover = false;
+        var visited = false;
+        try {
+          fromCover = sessionStorage.getItem("fromCover") === "1";
+          sessionStorage.removeItem("fromCover");
+          visited = sessionStorage.getItem("siteVisited") === "1";
+        } catch (e) {}
+
+        // Detect a true reload (refresh) — show cover again on refresh.
+        var isReload = false;
+        try {
+          var navEntry = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+          if (navEntry && navEntry.type === "reload") isReload = true;
+          else if (performance.navigation && performance.navigation.type === 1) isReload = true;
+        } catch (e) {}
+
+        // Show cover when: refreshing, OR first visit in this tab and not already arriving from cover.
+        if (isReload || (!visited && !fromCover)) {
+          window.location.replace("index.html");
+          return;
+        }
+
+        // Mark site as visited so subsequent in-tab nav stays on work.html.
+        try { sessionStorage.setItem("siteVisited", "1"); } catch (e) {}
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            body.classList.add("is-ready");
+            if (veil) {
+              veil.classList.add("is-off");
+              setTimeout(function () { veil.parentNode && veil.parentNode.removeChild(veil); }, 800);
+            }
+          });
+        });
+      })();
+    </script>
+    <script>
+      // Scroll-driven scale on each project's hero image.
+      (function () {
+        const links = document.querySelectorAll('.project-image-link');
+        if (!links.length) return;
+        let ticking = false;
+        function update() {
+          const vh = window.innerHeight || document.documentElement.clientHeight;
+          links.forEach(function (link) {
+            const rect = link.getBoundingClientRect();
+            let p = 1 - rect.top / vh;
+            if (p < 0) p = 0;
+            if (p > 1) p = 1;
+            link.style.setProperty('--scroll-progress', p.toFixed(3));
+            // Map progress 0→1 to scale 0.85 → 0.96.
+            var scale = 0.85 + p * 0.11;
+            link.style.setProperty('--scroll-scale', scale.toFixed(3));
+          });
+          ticking = false;
+        }
+        function onScroll() {
+          if (!ticking) {
+            window.requestAnimationFrame(update);
+            ticking = true;
+          }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
+      })();
+
+      // Hide audio dock under reduced motion
+      (function () {
+        var dock = document.getElementById('audio-dock');
+        if (dock && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          dock.style.display = 'none';
+        }
+        // Mark "wanted" if arriving from cover page
+        try {
+          if (sessionStorage.getItem("autoplayMusic") === "1") {
+            sessionStorage.setItem("siteAudioPlaying", "1");
+            sessionStorage.removeItem("autoplayMusic");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script src="site-audio.js"></script>
+  </body>
+</html>

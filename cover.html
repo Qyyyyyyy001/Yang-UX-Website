@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yang Qiu — Cover</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --ink: #f5f3ee;
+        --muted: rgba(245, 243, 238, 0.45);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Inter", system-ui, sans-serif;
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      /* Stage — full viewport with the textured dark background. */
+      .stage {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      /* Subtle organic shapes echoing the reference covers. */
+      .stage::before,
+      .stage::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.55;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .stage::before {
+        width: 38vw;
+        height: 38vw;
+        left: -8vw;
+        bottom: -10vw;
+        background: radial-gradient(circle at 40% 40%, #1a1a1a 0%, #0a0a0a 70%);
+      }
+      .stage::after {
+        width: 34vw;
+        height: 34vw;
+        right: -6vw;
+        top: 8vw;
+        background: radial-gradient(circle at 50% 50%, #181818 0%, #0a0a0a 70%);
+      }
+
+      /* A second pair of softer blobs to match the 3-shape composition. */
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(70px);
+        opacity: 0.5;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .blob--center {
+        width: 26vw;
+        height: 26vw;
+        left: 22vw;
+        top: 18vw;
+        background: radial-gradient(circle, #161616 0%, #0a0a0a 70%);
+      }
+
+      /* Film-grain / dotted texture overlay. */
+      .grain {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.18;
+        mix-blend-mode: overlay;
+        background-image:
+          radial-gradient(rgba(255,255,255,0.6) 0.5px, transparent 0.6px);
+        background-size: 3px 3px;
+      }
+
+      /* Vignette to match the reference's edge falloff. */
+      .vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 30%,
+          rgba(0,0,0,0.55) 100%
+        );
+      }
+
+      /* Content. */
+      .content {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 56px;
+        padding: 0 4vw;
+        text-align: center;
+      }
+
+      .id-row {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .id-row__avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: #222;
+      }
+      .id-row__avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(0.2) contrast(1.05);
+      }
+
+      .id-row__name {
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 30px;
+        letter-spacing: 0.1px;
+        color: var(--muted);
+      }
+
+      /* Big rotating serif word. */
+      .headline {
+        font-family: "EB Garamond", serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: clamp(56px, 11vw, 188px);
+        line-height: 1;
+        letter-spacing: -0.5px;
+        color: var(--ink);
+        margin: 0;
+        position: relative;
+        min-height: 1.1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .headline__slot {
+        position: relative;
+        display: inline-block;
+        white-space: nowrap;
+        perspective: 1200px;
+      }
+
+      /* Per-letter wrapper: each letter animates independently. */
+      .headline__word {
+        display: inline-flex;
+        white-space: nowrap;
+      }
+      .headline__word.is-stack {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+      }
+      .headline__char {
+        display: inline-block;
+        will-change: transform, opacity, filter;
+      }
+      .headline__char.space {
+        width: 0.34em;
+      }
+
+      /* Initial entrance — drop from above with skew + blur (first paint only). */
+      @keyframes charInDrop {
+        0% {
+          opacity: 0;
+          transform: translate3d(0, -1.1em, 0) rotateX(-75deg) skewY(8deg);
+          filter: blur(14px);
+        }
+        55% { opacity: 1; filter: blur(0); }
+        100% {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) rotateX(0) skewY(0);
+          filter: blur(0);
+        }
+      }
+
+      /* Subsequent switches — same element, just opacity + blur + slight scale. */
+      .headline__word {
+        transition:
+          opacity 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          filter 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .headline__word.is-fading-out {
+        opacity: 0;
+        filter: blur(18px);
+        transform: scale(0.96);
+      }
+      .headline__word.is-fading-in {
+        opacity: 0;
+        filter: blur(18px);
+        transform: scale(1.04);
+        animation: wordFadeIn 300ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+      @keyframes wordFadeIn {
+        0%   { opacity: 0; filter: blur(18px); transform: scale(1.04); }
+        100% { opacity: 1; filter: blur(0);    transform: scale(1); }
+      }
+
+      .headline__char.is-in {
+        animation: charInDrop 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage" id="stage">
+      <div class="blob blob--center"></div>
+      <div class="grain"></div>
+      <div class="vignette"></div>
+
+      <div class="content">
+        <div class="id-row">
+          <span class="id-row__avatar">
+            <img src="assets/avatar.jpg" alt="" />
+          </span>
+          <span class="id-row__name">Yang Qiu</span>
+        </div>
+
+        <h1 class="headline" aria-live="polite">
+          <span class="headline__slot" id="slot"></span>
+        </h1>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        var WORDS = ["Product Designer", "User Researcher", "INTP"];
+        var slot = document.getElementById("slot");
+        var idx = 0;
+        var animating = false;
+        var timer = null;
+        var INTERVAL = 1400;
+        var STAGGER = 28; // ms between letters (initial drop only)
+        var FADE = 260;   // half-cycle for swap fades
+
+        function buildInitialWord(text) {
+          var word = document.createElement("span");
+          word.className = "headline__word";
+          for (var i = 0; i < text.length; i++) {
+            var ch = text.charAt(i);
+            var span = document.createElement("span");
+            span.className = "headline__char" + (ch === " " ? " space" : "") + " is-in";
+            span.textContent = ch === " " ? "\u00a0" : ch;
+            span.style.animationDelay = (i * STAGGER) + "ms";
+            word.appendChild(span);
+          }
+          return word;
+        }
+
+        function setWordText(word, text) {
+          word.textContent = "";
+          for (var i = 0; i < text.length; i++) {
+            var ch = text.charAt(i);
+            var span = document.createElement("span");
+            span.className = "headline__char" + (ch === " " ? " space" : "");
+            span.textContent = ch === " " ? "\u00a0" : ch;
+            word.appendChild(span);
+          }
+        }
+
+        function show(nextIdx) {
+          if (animating || nextIdx === idx) return;
+          animating = true;
+
+          var current = slot.querySelector(".headline__word");
+          if (!current) { animating = false; return; }
+
+          // Fade + blur + slight scale-down on the SAME element (no stacking, no reflow shift).
+          current.classList.add("is-fading-out");
+          setTimeout(function () {
+            // Mid-swap: replace text, then fade back in.
+            setWordText(current, WORDS[nextIdx]);
+            current.classList.remove("is-fading-out");
+            current.classList.add("is-fading-in");
+            // Force reflow so the in animation restarts cleanly.
+            // eslint-disable-next-line no-unused-expressions
+            void current.offsetWidth;
+            setTimeout(function () {
+              current.classList.remove("is-fading-in");
+              idx = nextIdx;
+              animating = false;
+            }, FADE + 40);
+          }, FADE);
+        }
+
+        function next() {
+          show((idx + 1) % WORDS.length);
+        }
+
+        function startAuto() {
+          stopAuto();
+          timer = setInterval(next, INTERVAL);
+        }
+        function stopAuto() {
+          if (timer) { clearInterval(timer); timer = null; }
+        }
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowRight") {
+            stopAuto();
+            show((idx + 1) % WORDS.length);
+            startAuto();
+          } else if (e.key === "ArrowLeft") {
+            stopAuto();
+            show((idx - 1 + WORDS.length) % WORDS.length);
+            startAuto();
+          }
+        });
+
+        document.getElementById("stage").addEventListener("click", function () {
+          stopAuto();
+          next();
+          startAuto();
+        });
+
+        // Initial paint with entrance animation.
+        slot.appendChild(buildInitialWord(WORDS[0]));
+        startAuto();
+      })();
+    </script>
+  </body>
+</html>
